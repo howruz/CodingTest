@@ -1,0 +1,21 @@
+-- 코드를 입력하세요
+SELECT 
+    A.H AS HOUR 
+    , CASE WHEN B.CNT IS NULL THEN 0 
+        ELSE B.CNT 
+        END AS COUNT 
+FROM(
+    SELECT 
+        LEVEL - 1 AS H 
+    FROM DUAL 
+    CONNECT BY LEVEL <= 24 
+) A 
+LEFT JOIN (
+    SELECT 
+        TO_CHAR(DATETIME, 'HH24') AS DT 
+        , COUNT(ANIMAL_ID) AS CNT 
+    FROM ANIMAL_OUTS 
+    GROUP BY TO_CHAR(DATETIME, 'HH24') 
+) B 
+ON A.H = B.DT 
+ORDER BY HOUR;
