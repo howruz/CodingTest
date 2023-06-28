@@ -1,15 +1,17 @@
 -- 코드를 입력하세요
 SELECT 
-    I.NAME 
-    , I.DATETIME 
+    A.NAME 
+    , A.DATETIME 
 FROM (
-        SELECT 
-            ANIMAL_ID 
-            , NAME 
-            , DATETIME 
-        FROM ANIMAL_INS 
-        ORDER BY DATETIME 
-    ) I 
-LEFT JOIN ANIMAL_OUTS O 
-ON I.ANIMAL_ID = O.ANIMAL_ID  
-WHERE O.ANIMAL_ID IS NULL AND ROWNUM <= 3;
+    SELECT 
+        I.ANIMAL_ID 
+        , I.NAME 
+        , I.DATETIME 
+        , ROW_NUMBER() OVER(ORDER BY I.DATETIME) AS RANK 
+    FROM ANIMAL_INS I 
+    LEFT JOIN ANIMAL_OUTS O 
+    ON I.ANIMAL_ID = O.ANIMAL_ID 
+    WHERE O.ANIMAL_ID IS NULL
+) A 
+WHERE A.RANK <= 3 
+ORDER BY A.DATETIME;
