@@ -27,24 +27,19 @@ public class Main {
 					break;
 					
 				case "pop_front":
-					if(deque.peekFirst() == null) {
+					if(deque.isEmpty()) {
 						sb.append(-1).append("\n");
-						break;
+					}else {
+						sb.append(deque.pollFirst()).append("\n");
 					}
-					
-					sb.append(deque.peekFirst()).append("\n");
-					deque.poll();
 					break;
 					
-					
 				case "pop_back":
-					if(deque.peekLast() == null) {
+					if(deque.isEmpty()) {
 						sb.append(-1).append("\n");
-						break;
+					}else {
+						sb.append(deque.pollLast()).append("\n");
 					}
-					
-					sb.append(deque.peekLast()).append("\n");
-					deque.pollLast();
 					break;
 					
 				case "size":
@@ -54,34 +49,30 @@ public class Main {
 				case "empty":
 					if(deque.isEmpty()) {
 						sb.append(1).append("\n");
-						break;
 					}else {
 						sb.append(0).append("\n");
-						break;
 					}
+					break;
 					
 				case "front":
-					if(deque.peekFirst() == null) {
+					if(deque.isEmpty()) {
 						sb.append(-1).append("\n");
-						break;
 					}else {
 						sb.append(deque.peekFirst()).append("\n");
-						break;
 					}
+					break;
 					
 				case "back":
-					if(deque.peekLast() == null) {
+					if(deque.isEmpty()) {
 						sb.append(-1).append("\n");
-						break;
 					}else {
 						sb.append(deque.peekLast()).append("\n");
-						break;
 					}
+					break;
 			}
 		}
 		
 		System.out.print(sb);
-
 	}
 
 }
