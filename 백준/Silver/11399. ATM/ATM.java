@@ -7,27 +7,26 @@ import java.util.StringTokenizer;
 public class Main {
 
 	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedReader br= new BufferedReader(new InputStreamReader(System.in));
 		int N = Integer.parseInt(br.readLine());
-		int[] arr = new int[N];
 		StringTokenizer st = new StringTokenizer(br.readLine());
+		int[] time = new int[N];
 		
 		for(int i=0; i<N; i++) {
-			arr[i] = Integer.parseInt(st.nextToken()); 
+			time[i] = Integer.parseInt(st.nextToken());
 		}
 		
-		Arrays.sort(arr);
-		int[] P = new int[N];
-		P[0] = arr[0];
-		int result = P[0];
+		Arrays.sort(time);
+        
+		int result = 0;
+		int cnt = N;
 		
-		for(int i=1; i<N; i++) {
-			P[i] = P[i-1] + arr[i];
-			result += P[i];
+		for(int i=0; i<N; i++) {
+			result += cnt * time[i];
+			cnt--;
 		}
 		
 		System.out.print(result);
-
 	}
 
 }
