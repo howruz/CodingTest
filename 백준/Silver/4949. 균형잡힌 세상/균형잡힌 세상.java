@@ -1,17 +1,15 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Stack;
 
 public class Main {
-	
+
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
-		String s;
 		
 		while(true) {
-			s = br.readLine();
+			String s = br.readLine();
 			
 			if(s.equals(".")) {
 				break;
@@ -24,32 +22,33 @@ public class Main {
 	}
 	
 	public static String check(String s) {
-		Stack<Character> stack = new Stack<>();
+		char[] charArr = new char[s.length()];
+		int idx = 0;
 		
-		for(int i=0; i<s.length(); i++) {
-			char c = s.charAt(i);
-			
+		for(char c : s.toCharArray()) {
 			if(c == '(' || c == '[') {
-				stack.push(c);
+				charArr[idx] = c;
+				idx++;
 			}else if(c == ')') {
-				if(stack.isEmpty() || stack.peek() != '(') {
+				if(idx == 0 || charArr[idx - 1] != '(') {
 					return "no";
 				}else {
-					stack.pop();
+					idx--;
 				}
 			}else if(c == ']') {
-				if(stack.isEmpty() || stack.peek() != '[') {
+				if(idx == 0 || charArr[idx - 1] != '[') {
 					return "no";
 				}else {
-					stack.pop();
+					idx--;
 				}
 			}
 		}
 		
-		if(stack.isEmpty()) {
+		if(idx == 0) {
 			return "yes";
 		}else {
 			return "no";
 		}
 	}
+
 }
