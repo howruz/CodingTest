@@ -1,24 +1,27 @@
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Stack;
 
 public class Main {
 
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
-
-		int T = sc.nextInt();
-		sc.nextLine();
+		int T = Integer.parseInt(br.readLine());
 		
-		while(T-- > 0) {
+		A : while(T-- > 0) {
+			String s = br.readLine();
 			Stack<Character> stack = new Stack<>();
-			String s = sc.nextLine();
 			
 			for(char c : s.toCharArray()) {
-				if(!stack.isEmpty() && stack.peek() == '(' && c == ')') {
-					stack.pop();
-				}else if(c == '(' || c == ')') {
+				if(c == '(') {
 					stack.push(c);
+				}else if(stack.isEmpty()) {
+					sb.append("NO").append("\n");
+					continue A;
+				}else {
+					stack.pop();
 				}
 			}
 			
@@ -29,8 +32,7 @@ public class Main {
 			}
 		}
 		
-		sc.close();
-		
 		System.out.print(sb);
 	}
+
 }
