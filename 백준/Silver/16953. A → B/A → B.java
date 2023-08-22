@@ -6,24 +6,30 @@ import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
-
+	
 	static long B;
+	static int cnt = 0;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
-
-		long A = Long.parseLong(st.nextToken());
-		B = Long.parseLong(st.nextToken());
 		
-		System.out.print(bfs(A));
+		long A = Integer.parseInt(st.nextToken());
+		B = Integer.parseInt(st.nextToken());
+		
+		bfs(A);
+		
+		if(cnt != -1) {
+			System.out.print(cnt + 1);
+		}else {
+			System.out.print(cnt);
+		}
 	}
-
-	public static int bfs(long a) {
+	
+	public static void bfs(long a) {
 		Queue<Long> queue = new LinkedList<>();
 		queue.add(a);
-		int cnt = 0;
-
+		
 		while(!queue.isEmpty()) {
 			int size = queue.size();
 			
@@ -31,12 +37,12 @@ public class Main {
 				long now = queue.poll();
 				
 				if(now == B) {
-					return cnt + 1;
+					return;
 				}
 				
 				if(now < B) {
 					long[] next = {now * 2, now * 10 + 1};
-
+					
 					for(int j=0; j<2; j++) {
 						queue.add(next[j]);
 					}
@@ -45,8 +51,8 @@ public class Main {
 			
 			cnt++;
 		}
-
-		return -1;
+		
+		cnt = -1;
 	}
 
 }
