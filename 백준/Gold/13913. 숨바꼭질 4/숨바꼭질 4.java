@@ -7,68 +7,65 @@ import java.util.Stack;
 import java.util.StringTokenizer;
 
 public class Main {
-	static int N;
-	static int K;
-	static Stack<Integer> stack = new Stack<>();
-	static int[] route = new int[100001];
-	
+
+	static int[] time;
+	static int[] parent;
+	static StringBuilder sb = new StringBuilder();
+
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
+		Stack<Integer> stack = new Stack<>();
+
+		int N = Integer.parseInt(st.nextToken());
+		int K = Integer.parseInt(st.nextToken());
+
+		time = new int[100001];
+		parent = new int[100001];
 		
-		N = Integer.parseInt(st.nextToken());
-		K = Integer.parseInt(st.nextToken());
+		if(N == K) {
+			sb.append(0).append("\n").append(N);
+			System.out.print(sb);
+			return;
+		}
 		
-		int result = bfs(N);
-		System.out.println(result);
+		bfs(N);
 		
+		System.out.println(time[K]);
+
 		int idx = K;
+		stack.add(idx);
+
 		while(idx != N) {
-			stack.push(idx);
-			idx = route[idx];
+			stack.add(parent[idx]);
+			idx = parent[idx];
 		}
-		stack.push(idx);
-		
+
 		while(!stack.isEmpty()) {
-			System.out.print(stack.pop() + " ");
+			sb.append(stack.pop()).append(" ");
 		}
-	}
-	
-	private static int bfs(int n) {
-		int[] arr = new int[100001];
-		arr[n] = 1;
-		
-		Queue<Integer> queue = new LinkedList<>();
-		queue.add(n);
-		
-		while(!queue.isEmpty()) {
-			int poll = queue.poll();
-			
-			if(poll == K) {
-				return arr[poll] - 1;
-			}
-			
-			if(poll - 1 >= 0 && arr[poll - 1] == 0) {
-				arr[poll - 1] = arr[poll] + 1;
-				route[poll - 1] = poll;
-				queue.add(poll - 1);
-			}
-			
-			if(poll + 1 <= 100000 && arr[poll + 1] == 0) {
-				arr[poll + 1] = arr[poll] + 1;
-				route[poll + 1] = poll;
-				queue.add(poll + 1);
-			}
-			
-			if(poll * 2 <= 100000 && arr[poll * 2] == 0) {
-				arr[poll * 2] = arr[poll] + 1;
-				route[poll * 2] = poll;
-				queue.add(poll * 2);
-			}
-			
-		}
-		
-		return 0;
+
+		System.out.print(sb);
 	}
 
+	public static void bfs(int n) {
+		Queue<Integer> queue = new LinkedList<>();
+		queue.add(n);
+		time[n] = 0;
+
+		while(!queue.isEmpty()) {
+			int now = queue.poll();
+			int[] next = new int[] {now - 1, now + 1, now * 2};
+
+			for(int i=0; i<3; i++) {
+				if(next[i] >= 0 && next[i] <= 100000) {
+					if(time[next[i]] == 0) {
+						time[next[i]] = time[now] + 1;
+						queue.add(next[i]);
+						parent[next[i]] = now;
+					}
+				}
+			}
+		}
+	}
 }
